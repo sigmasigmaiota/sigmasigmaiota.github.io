@@ -1,1 +1,122 @@
-"Hello World" 
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            h3{
+                font: 16px sans-serif;
+                font-weight: bold;
+            }
+            table {
+                border-collapse: collapse;
+                border: 2px black solid;
+                font: 12px sans-serif;
+            }
+            td {
+                border: 1px black solid;
+                padding: 5px;
+            }
+            #tablePrint, #entry {
+                margin-right: 100px;
+                float: left;
+            }
+            .child_div_1 {
+                float: left;
+                margin-right: 5px;
+            }
+            .center-div {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 20%;
+                margin: auto;
+            }
+            #response {
+                padding-top: 50px;
+                font: 18px sans-serif;
+                font-weight: bold;
+            }
+            #myText {
+                margin-left: 65px;
+            }
+        </style>
+<head>
+<body>
+<br>
+<br>
+<div class="center-div">
+<div id="tablePrint" style="margin-left: 30px;"> </div>
+<div id="entry">
+    <h3>Please enter the name of a President:</h3>
+    <input type="text" id="myText">
+    <div id="response"></div>
+
+</div>
+</div>
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<script type="text/javascript"charset="utf-8">
+url = "https://raw.githubusercontent.com/charleyferrari/CUNY_DATA_608/master/module5/data/presidents.csv"
+
+var dataset;  //Global var
+
+var myTable= "<table><tr><td style='width: 100px; color: red;font-weight: bold;'>Name</td>";
+    myTable+= "<td style='width: 100px; color: red; text-align: right;font-weight: bold;text-align:center'>Height</td>";
+    myTable+="<td style='width: 100px; color: red; text-align: right;font-weight: bold;text-align:center'>Weight</td></tr>";
+
+d3.dsv(",", url, function(d) {
+  return {
+    //year: new Date(+d.Year, 0, 1), // convert "Year" column to Date
+    Name: d.Name,
+    Height: +d.Height,
+    Weight: +d.Weight // convert "Length" column to number
+  };
+}).then(function(data) {
+   
+   for (var i=0;i<data.length;i++) {
+        console.log(data[i].Name+" was "+data[i].Height+" tall and weighs "+data[i].Weight);
+        myTable+="<tr><td style='width: 100px;'>" + data[i].Name + "</td>";
+        //data[i] = data[i].toFixed(3);
+        myTable+="<td style='width: 100px; text-align: center;'>" + data[i].Height + " in</td>";
+        myTable+="<td style='width: 100px; text-align: center;'>" + data[i].Weight + " lbs</td></tr>";
+    }
+    myTable+="</table>";
+    document.getElementById('tablePrint').innerHTML = myTable;
+    dataset = data;
+    
+
+});
+
+window.onload = function(){
+
+const selectElement = document.getElementById('myText');
+
+selectElement.addEventListener('input', (event) => {
+    myValue = selectElement.value;
+
+    var nameArray = []
+    for (var i=0;i<dataset.length;i++) {
+        
+        var tempName = dataset[i].Name;
+        nameArray.push(tempName)
+    }
+
+    console.log(nameArray.indexOf(myValue));
+    indexName = nameArray.indexOf(myValue);
+    if (indexName>=0){
+        ht = dataset[indexName].Height;
+        wt = dataset[indexName].Weight;
+        fullResponse = 'President: '+myValue+'<br><br>Height: '+ht+' in<br><br>Weight: '+wt+' lbs';
+        document.getElementById('response').innerHTML = fullResponse;
+    }else{
+        fullResponse = '<span style="color:DarkRed;"><i>Please enter a name from the table.</i></span>';
+        document.getElementById('response').innerHTML = fullResponse;
+    }
+
+});
+};
+
+</script>
+</body>
+</html>
+
