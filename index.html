@@ -3,11 +3,17 @@
     <head>
         <meta charset="utf-8">
         <style>
-            h3{
+            h2 {
                 font: 16px sans-serif;
                 font-weight: bold;
             }
+            h3 {
+                font: 12px sans-serif;
+                font-weight: bold;
+            }
             table {
+                width: auto;
+                text-align: center;
                 border-collapse: collapse;
                 border: 2px black solid;
                 font: 12px sans-serif;
@@ -28,25 +34,57 @@
                 width: 100%;
                 height: 100%;
                 position: absolute;
-                left: 20%;
+                left: 40%;
                 margin: auto;
             }
             #response {
                 padding-top: 50px;
-                font: 18px sans-serif;
-                font-weight: bold;
+                font: 16px sans-serif;
             }
             #myText {
-                margin-left: 65px;
+                margin-left: 5%;
+            }
+            #entry, #entry2 {
+                margin-right: 10px;
+                margin-left: 5%;
+                float: left;
+            }
+            .one {
+                float: right;
+                margin-right: 30px;
+            }
+            #response3, #response2 {
+                position:absolute;
+                padding-top: 0px;
+                font: 12px sans-serif;
+                float: left;
+                margin-left:30px;
+            }
+            #myText2, #myNum {
+                margin-left: 10px;
             }
         </style>
 <head>
 <body>
-<br>
-<br>
+<div id="entry2">
+    <h2>Part 1</h2>
+    <h3>Please type text below.</h3>
+    <input type="text" id="myText2">
+    <div class="one">
+        <div id="response3"></div>
+    </div>
+    <div></div>
+    <h3>Please input a number below.</h3>
+    <input type="number" id="myNum">
+    <div class="one">
+        <div id="response2"></div>
+    </div>
+
+</div>
 <div class="center-div">
 <div id="tablePrint" style="margin-left: 30px;"> </div>
 <div id="entry">
+    <h2>Part 2</h2>
     <h3>Please enter the name of a President:</h3>
     <input type="text" id="myText">
     <div id="response"></div>
@@ -114,6 +152,58 @@ selectElement.addEventListener('input', (event) => {
     }
 
 });
+
+const selectElement2 = document.getElementById('myText2');
+
+selectElement2.addEventListener('input', (event3) => {
+
+    myValue2 = selectElement2.value;
+        
+    var splitWord = myValue2.split("");
+    var revWord = splitWord.reverse();
+    var joinWord = revWord.join("");
+
+    fullResponse = 'The text reversed: '+joinWord;
+    document.getElementById('response3').innerHTML = fullResponse;
+
+});
+
+const selectNum = document.getElementById('myNum');
+
+selectNum.addEventListener('input', (event2) => {
+
+    document.getElementById('response2').innerHTML = "";
+
+    myNum = selectNum.value;
+        
+    multArray = [];
+    for (var i=2; i<22; i++) {
+        var multVal = myNum*i;
+        multArray.push(multVal);
+    }
+
+    var arrayLength = multArray.length;
+    var numTable = document.createElement('table');
+
+    for (row = 0; row < 5; row++){
+        tr = document.createElement('tr');
+
+        for (var k = 0, tr, td; k < 4; k++) {
+            
+            td = document.createElement('td');
+            td.appendChild(document.createTextNode(multArray[(row*4)+k]));
+            tr.appendChild(td);
+            
+        }
+        numTable.appendChild(tr);
+    }
+    document.getElementById('response2').appendChild(numTable);
+
+});
+
+
+
+
 };
 
 </script>
